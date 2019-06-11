@@ -65,6 +65,9 @@ function SignUpModal({ open, handleClose }) {
           enqueueSnackbar('가입 되었습니다!', { variant: 'success' });
           handleClose();
         }
+      })
+      .catch((err) => {
+        enqueueSnackbar('Network error', { variant: 'error' });
       });
   };
 

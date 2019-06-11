@@ -15,7 +15,7 @@ import SignInModal from './containers/signIn';
 const useStyles = makeStyles(theme => ({
   toolbar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
-    background: '#ffffff',
+    backgroundColor: '#ffffff',
   },
   title: {
     flexGrow: 1,

@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useSnackbar } from 'notistack';
 
 import client from '../../util/axios';
 
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -43,8 +44,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function SignUpModal({ open, handleClose }) {
+function SignUpModal({ open, handleClose, handleSignIn }) {
   const classes = useStyles();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -53,7 +56,16 @@ function SignUpModal({ open, handleClose }) {
     evt.preventDefault();
     client.post("/user/signIn", { email, password })
       .then((res) => {
-        console.log(res);
+        if (res.data.error) {
+          enqueueSnackbar(res.data.error.message, { variant: 'error' });
+        } else {
+          enqueueSnackbar('로그인 성공!', { variant: 'success' });
+          handleSignIn(res.data.result.data);
+          handleClose();
+        }
+      })
+      .catch((err) => {
+        enqueueSnackbar('Network error', { variant: 'error' });
       });
   };
   const handleEmail = (evt) => {

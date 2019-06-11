@@ -60,7 +60,7 @@ function SignUpModal({ open, handleClose }) {
     client.post("/user/signUp", { email, password, firstName, lastName })
       .then((res) => {
         if (res.data.error) {
-          enqueueSnackbar(res.data.error.errorMsg, { variant: 'error' });
+          enqueueSnackbar(res.data.error.message, { variant: 'error' });
         } else {
           enqueueSnackbar('가입 되었습니다!', { variant: 'success' });
           handleClose();

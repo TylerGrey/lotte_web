@@ -7,7 +7,7 @@ class Home extends Component {
     return (
       <Button variant="contained" color="primary" onClick={
         () => {
-          axios.post("http://localhost:8080/users/")
+          axios.post("http://localhost:8080/api/user/account", {email: "test@gmail.com", password: "123456"})
           .then((res) => {
             console.log(res);
           })

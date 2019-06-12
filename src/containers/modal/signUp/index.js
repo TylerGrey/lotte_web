@@ -52,12 +52,11 @@ const SignUpModal = ({ open, handleClose }) => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [name, setName] = useState('')
 
   const handleSigUp = (evt) => {
     evt.preventDefault();
-    client.post("/user/signUp", { email, password, firstName, lastName })
+    client.post("/user/signUp", { email, password, name })
       .then((res) => {
         if (res.data.error) {
           enqueueSnackbar(res.data.error.message, { variant: 'error' });
@@ -73,8 +72,7 @@ const SignUpModal = ({ open, handleClose }) => {
 
   const handleEmail = evt => setEmail(evt.target.value);
   const handlePassword = evt => setPassword(evt.target.value);
-  const handleFirstName = evt => setFirstName(evt.target.value);
-  const handleLastName = evt => setLastName(evt.target.value);
+  const handleName = evt => setName(evt.target.value);
 
   return (
     <Modal
@@ -92,29 +90,17 @@ const SignUpModal = ({ open, handleClose }) => {
         </Typography>
           <form className={classes.form} noValidate>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="fname"
-                  name="firstName"
+                  name="name"
                   variant="outlined"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="name"
+                  label="Name"
                   autoFocus
-                  onChange={handleFirstName}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
-                  onChange={handleLastName}
+                  onChange={handleName}
                 />
               </Grid>
               <Grid item xs={12}>

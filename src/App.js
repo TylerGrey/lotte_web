@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 
 import Home from './containers/page/home';
+import Room from './containers/page/room';
 import SignUpModal from './containers/modal/signUp';
 import SignInModal from './containers/modal/signIn';
 
@@ -25,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
-  signUp: {
+  button: {
     marginRight: theme.spacing(1)
   },
 }));
@@ -56,15 +57,22 @@ const App = ({ loginUser, signIn }) => {
         {
           !loginUser ?
             <>
-              <Button className={classes.signUp} variant="outlined" size="small" onClick={handleSignUpOpen}>Sign Up</Button>
+              <Button className={classes.button} variant="outlined" size="small" onClick={handleSignUpOpen}>Sign Up</Button>
               <Button variant="outlined" size="small" onClick={handleSignInOpen}>Sign In</Button>
             </> :
-            <Avatar>{JSON.parse(loginUser).firstName[0]}</Avatar>
+            <>
+              {
+                JSON.parse(loginUser).role === "ADMIN" && 
+                <Link className={classes.button} to="room">회의실 관리</Link>
+              }
+              <Avatar>{JSON.parse(loginUser).name[0]}</Avatar>
+            </>
         }
       </Toolbar>
       <Container maxWidth="lg">
         <Switch>
-          <Route path="/" component={Home} />
+          <Route exact path="/" component={Home} />
+          <Route path="/room" component={Room} />
         </Switch>
       </Container>
     </div>

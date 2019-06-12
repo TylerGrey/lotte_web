@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import EditOutlined from '@material-ui/icons/EditOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: theme.palette.background.paper,
+    width: 400,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(4),
     outline: 'none',
@@ -43,35 +44,31 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignUpModal = ({ open, handleClose }) => {
+const RoomAddModal = ({ open, handleClose, handleSave }) => {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [title, setTitle] = useState('')
+  const [name, setName] = useState('')
 
   const handleSigIn = (evt) => {
     evt.preventDefault();
-    client.post("/board/add", { title }, {
-      headers: {
-        Authorization: JSON.parse(localStorage.getItem('user')).token || '',
-      }
-    })
+    client.post("/room/add", { name })
       .then((res) => {
         if (res.data.error) {
           enqueueSnackbar(res.data.error.message, { variant: 'error' });
         } else {
-          enqueueSnackbar('작성 완료!', { variant: 'success' });
+          enqueueSnackbar('생성 완료!', { variant: 'success' });
+          handleSave();
           handleClose();
         }
       })
       .catch((err) => {
-        console.log(err);
         enqueueSnackbar('Network error', { variant: 'error' });
       });
   };
-  const handleTitle = (evt) => {
-    setTitle(evt.target.value)
+  const handleName = (evt) => {
+    setName(evt.target.value)
   };
 
   return (
@@ -79,36 +76,37 @@ const SignUpModal = ({ open, handleClose }) => {
       open={open}
       onClose={handleClose}
     >
-      <Container maxWidth="md">
+      <Container maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <EditOutlined />
+            <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            게시글 작성
-          </Typography>
+            회의실 생성
+        </Typography>
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="title"
-              label="Title"
-              name="title"
-              autoComplete="title"
+              id="room"
+              label="Room"
+              name="room"
+              autoComplete="room"
               autoFocus
-              onChange={handleTitle}
+              onChange={handleName}
             />
             <Button
               type="submit"
+              fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
               onClick={handleSigIn}
             >
-              작성하기
+              생성
             </Button>
           </form>
         </div>
@@ -117,4 +115,4 @@ const SignUpModal = ({ open, handleClose }) => {
   );
 }
 
-export default SignUpModal;
+export default RoomAddModal;

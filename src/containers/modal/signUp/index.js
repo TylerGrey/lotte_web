@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import client from '../../util/axios';
+import client from '../../../util/axios';
 
 import { useSnackbar } from 'notistack';
 
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function SignUpModal({ open, handleClose }) {
+const SignUpModal = ({ open, handleClose }) => {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();

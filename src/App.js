@@ -10,9 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 
-import Home from './containers/home';
-import SignUpModal from './containers/signUp';
-import SignInModal from './containers/signIn';
+import Home from './containers/page/home';
+import SignUpModal from './containers/modal/signUp';
+import SignInModal from './containers/modal/signIn';
 
 import { signIn } from "./redux/actions";
 import { getLoginUser } from "./redux/selectors";
@@ -47,6 +47,7 @@ const App = ({ loginUser, signIn }) => {
 
   return (
     <div>
+      {/* {localStorage.removeItem('user')} */}
       <SignUpModal open={signUpOpen} handleClose={handleSignUpClose} />
       <SignInModal open={signInOpen} handleClose={handleSignInClose} handleSignIn={handleSignIn} />
       <CssBaseline />
